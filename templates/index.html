@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Host Details</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1><img src="{{ url_for('static', filename='server_icon.png') }}" alt="Icon" class="header-icon"> Live Host Details</h1>
+        <p class="timestamp">Last updated: {{ current_time }}</p>
+
+        <div class="card">
+            <h2>Operating System Information</h2>
+            <table>
+                <tr><th>Hostname</th><td>{{ os_details.node }}</td></tr>
+                <tr><th>System</th><td>{{ os_details.system }}</td></tr>
+                <tr><th>Distribution</th><td>{{ os_details.get('distro_name', 'N/A') }}</td></tr>
+                <tr><th>Kernel Release</th><td>{{ os_details.release }}</td></tr>
+                <tr><th>Kernel Version</th><td>{{ os_details.version }}</td></tr>
+                <tr><th>Architecture</th><td>{{ os_details.machine }}</td></tr>
+                <tr><th>Processor</th><td>{{ os_details.processor }}</td></tr>
+                {% if os_details.get('distro_id') %}
+                    <tr><th>Distro ID</th><td>{{ os_details.distro_id }}</td></tr>
+                {% endif %}
+                {% if os_details.get('distro_version') %}
+                    <tr><th>Distro Version</th><td>{{ os_details.distro_version }}</td></tr>
+                {% endif %}
+                {% if os_details.get('distro_codename') %}
+                    <tr><th>Distro Codename</th><td>{{ os_details.distro_codename }}</td></tr>
+                {% endif %}
+            </table>
+        </div>
+
+        <div class="card">
+            <h2>Python Package Versions</h2>
+            {% if python_packages %}
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Package Name</th>
+                            <th>Version</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for package in python_packages %}
+                        <tr class="{{ 'not-found' if 'Not Found' in package.version or 'Error' in package.version else '' }}">
+                            <td>{{ package.name }}</td>
+                            <td>{{ package.version }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p>No Python packages configured or configuration error.</p>
+            {% endif %}
+        </div>
+
+        <div class="card">
+            <h2>System Package Versions</h2>
+            <p class="note">Attempting to check via system's package manager (e.g., apt, yum, rpm, pacman, brew). Results may vary based on OS and installed tools.</p>
+            {% if system_packages %}
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Package Name</th>
+                            <th>Version (OS: {{ os_details.get('distro_id', 'Unknown') }})</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for package in system_packages %}
+                        <tr class="{{ 'not-found' if 'Not Found' in package.version or 'Error' in package.version or 'Unsupported' in package.version else '' }}">
+                            <td>{{ package.name }}</td>
+                            <td>{{ package.version }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p>No system packages configured or configuration error.</p>
+            {% endif %}
+        </div>
+    </div>
+    <footer>
+        <p>Host Details Viewer - A simple Python & Flask application.</p>
+    </footer>
+</body>
+</html>
