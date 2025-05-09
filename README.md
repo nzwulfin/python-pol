@@ -232,3 +232,92 @@ Apache can also act as a reverse proxy using `mod_proxy`.
     * Apache: `/var/log/apache2/error.log` and `/var/log/apache2/access.log` (or your custom log paths).
     * Systemd service logs: `sudo journalctl -u host_details.service`
 
+## Running with Containers (Podman / Docker)
+
+This project includes a `Containerfile` to build and run the application as a container, making deployment and distribution straightforward. The provided `Containerfile` uses a Red Hat Universal Base Image (UBI 9) with Python 3.11. A `.dockerignore` file is also included to optimize the build process.
+
+### Prerequisites for Containers
+
+* A container engine installed, such as:
+    * [Podman](https://podman.io/getting-started/installation)
+    * [Docker Desktop](https://www.docker.com/products/docker-desktop/)
+
+### 1. Building the Container Image
+
+Navigate to the root directory of the `host_details_app` project in your terminal (where the `Containerfile` is located).
+
+Run the following command to build the container image:
+
+```bash
+podman build -t host-details-app-ubi .
+```
+
+    podman build: The command to build an image from a Containerfile. (Docker users: replace podman with docker).
+    -t host-details-app-ubi: Tags the image with the name host-details-app-ubi. You can choose a different name and tag (e.g., yourusername/appname:version).
+    .: Specifies that the build context (including the Containerfile and application code) is the current directory.
+
+2. Running the Container
+
+Once the image is built successfully, you can run it using:
+Bash
+
+podman run -d -p 8080:8000 --name my-host-details-instance host-details-app-ubi
+
+    podman run: The command to run a new container from an image. (Docker users: replace podman with docker).
+    -d: Runs the container in detached mode (in the background).
+    -p 8080:8000: Maps port 8080 on your host machine to port 8000 inside the container. The application inside the container (Gunicorn) listens on port 8000. You can change 8080 to any other available port on your host.
+    --name my-host-details-instance: Assigns a unique name to your running container instance for easier management.
+    host-details-app-ubi: The name of the image you want to run (which you specified during the build step).
+
+3. Accessing the Application
+
+After running the container, open your local web browser and navigate to:
+
+    http://localhost:8080 (Or http://127.0.0.1:8080)
+
+You should see the "Live Host Details" web application. The information displayed (OS, system packages) will reflect the environment inside the container (UBI 9), not your host machine (except for the kernel version, which is shared).
+4. Managing the Container (Podman / Docker commands)
+
+Here are some common commands to manage your container:
+
+    View container logs:
+    Bash
+
+podman logs my-host-details-instance
+# docker logs my-host-details-instance
+
+List running containers:
+Bash
+
+podman ps
+# docker ps
+
+Stop the container:
+Bash
+
+podman stop my-host-details-instance
+# docker stop my-host-details-instance
+
+Start a stopped container:
+Bash
+
+podman start my-host-details-instance
+# docker start my-host-details-instance
+
+Remove a stopped container (if you no longer need it or want to run a new one with the same name):
+Bash
+
+podman rm my-host-details-instance
+# docker rm my-host-details-instance
+
+List all local images:
+Bash
+
+podman images
+# docker images
+
+Remove the container image (if you want to free up space and have stopped all containers using it):
+Bash
+
+podman rmi host-details-app-ubi
+# docker rmi host-details-app-ubi
