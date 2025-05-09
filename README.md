@@ -11,17 +11,16 @@ A simple Python Flask web application to display live host details like OS infor
 * Simple, clean web interface.
 
 ## Project Structure
-
-
-## Prerequisites
-
-* Python 3.8 or higher (due to `importlib.metadata`)
-* `pip` (Python package installer)
-* For system package version checking:
-    * On Debian/Ubuntu: `dpkg`
-    * On RHEL/CentOS/Fedora: `rpm`
-    * On Arch Linux: `pacman`
-    * On macOS: `brew` (if you want to check Homebrew packages)
+host_details_app/
+├── app.py                # Flask application
+├── helpers.py            # Functions to get system info
+├── config.json           # Configuration for packages
+├── templates/
+│   └── index.html        # HTML template
+├── static/
+│   ├── style.css         # CSS styles
+│   └── server_icon.png   # Optional: add an icon here
+└── README.md             # This file
 
 ## Setup and Local Development
 
@@ -38,9 +37,10 @@ A simple Python Flask web application to display live host details like OS infor
     source venv/bin/activate  # On Windows: venv\Scripts\activate
     ```
 
-3.  **Install dependencies:**
+3.  **Install dependencies using `requirements.txt`:**
+    With your virtual environment activated, navigate to the project root directory and run:
     ```bash
-    pip install Flask gunicorn distro
+    pip install -r requirements.txt
     ```
 
 4.  **Configure Packages (Optional):**
@@ -58,9 +58,12 @@ For production, do NOT use the Flask development server. Instead, use a WSGI ser
 
 ### Using Gunicorn
 
-1.  **Install Gunicorn** (if not already installed in your environment):
+### Using Gunicorn
+
+1.  **Ensure Gunicorn is installed** (it should be if you ran `pip install -r requirements.txt`):
+    If you ever need to install it or other packages separately:
     ```bash
-    pip install gunicorn
+    # pip install gunicorn # This is now covered by requirements.txt
     ```
 
 2.  **Run with Gunicorn:**
