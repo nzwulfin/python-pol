@@ -11,7 +11,7 @@ This project provides a flexible and modern dashboard for viewing live system in
 
 Think of this as a starting point or template. Whether you want to change the visual style, add new system metrics, or track different packages, this guide will walk you through the process.
 
-![Live Host Details Dashboard Screenshot](https://i.imgur.com/example-screenshot.png) ## Core Features
+## Core Features
 
 * **Dynamic UI**: A responsive, auto-refreshing dashboard built with Bootstrap 5.
 * **Extensible Data Collection**: Easily add new functions to pull more data from the host OS.
@@ -19,26 +19,30 @@ Think of this as a starting point or template. Whether you want to change the vi
 * **JSON Configuration**: Add or remove monitored packages by editing a simple `config.json` file.
 * **Container-Ready**: Includes a `Containerfile` for easy deployment with Podman or Docker.
 * **Clear API**: A simple `/data` endpoint provides all information in a clean JSON format.
-
-## Getting Started
-
-## Features
-
 * Displays detailed OS and kernel information.
 * Shows versions of specified Python packages.
 * Shows versions of specified system packages (supports Debian/Ubuntu, RHEL/CentOS/Fedora, Arch, macOS with Homebrew).
 
+
+## Getting Started
+
 ## Project Structure
-host_details_app/
-├── app.py                # Flask application
-├── helpers.py            # Functions to get system info
-├── config.json           # Configuration for packages
-├── templates/
-│   └── index.html        # HTML template
+```text
+.
+├── app.py
+├── config.json
+├── Containerfile
+├── helpers.py
+├── README.md
+├── requirements.txt
 ├── static/
-│   ├── style.css         # CSS styles
-│   └── server_icon.png   # Optional: add an icon here
-└── README.md             # This file
+│   ├── main.js
+│   └── style.css
+├── templates/
+│   └── index.html
+├── .dockerignore
+└── .gitignore
+```
 
 You can run this application either locally using Python for development or as a container.
 
@@ -94,7 +98,7 @@ This is the easiest customization. Simply open `config.json` and edit the lists.
 }
 ````
 
-### 2\. Customizing UI Icons
+### 2. Customizing UI Icons
 
 The UI uses [Bootstrap Icons](https://icons.getbootstrap.com/). Changing an icon is as simple as changing a CSS class name.
 
@@ -120,7 +124,7 @@ Let's say you want to change the main header icon.
 
 You can apply this same process to any icon in the `index.html` file or the `static/main.js` file where icons are dynamically generated.
 
-### 3\. Adding New System Details
+### 3. Adding New System Details
 
 This is a more advanced customization that involves touching the backend, the API, and the frontend. Let's walk through adding a **System Uptime** metric as an example.
 
@@ -214,54 +218,3 @@ osDetailsContainer.innerHTML = `
 ```
 
 After making these changes and restarting the application, the new "System Uptime" metric will appear on the dashboard\! You can follow this three-step pattern (helper -\> API -\> frontend) to add any new system detail you want to monitor.
-
-## Features
-
-* Displays detailed OS and kernel information.
-* Shows versions of specified Python packages.
-* Shows versions of specified system packages (supports Debian/Ubuntu, RHEL/CentOS/Fedora, Arch, macOS with Homebrew).
-* Package lists are configurable via `config.json`.
-* Simple, clean web interface.
-
-## Project Structure
-host_details_app/
-├── app.py                # Flask application
-├── helpers.py            # Functions to get system info
-├── config.json           # Configuration for packages
-├── templates/
-│   └── index.html        # HTML template
-├── static/
-│   ├── style.css         # CSS styles
-│   └── server_icon.png   # Optional: add an icon here
-└── README.md             # This file
-
-## Setup and Local Development
-
-1.  **Clone the repository (or create the files as described):**
-    ```bash
-    # If you have it in a git repo:
-    # git clone <your-repo-url>
-    # cd host_details_app
-    ```
-
-2.  **Create a Python virtual environment (recommended):**
-    ```bash
-    python3 -m venv venv
-    source venv/bin/activate  # On Windows: venv\Scripts\activate
-    ```
-
-3.  **Install dependencies using `requirements.txt`:**
-    With your virtual environment activated, navigate to the project root directory and run:
-    ```bash
-    pip install -r requirements.txt
-    ```
-
-4.  **Configure Packages (Optional):**
-    Edit `config.json` to add or remove Python and system packages you want to monitor.
-
-5.  **Run the Flask development server:**
-    ```bash
-    python app.py
-    ```
-    The application will be available at `http://127.0.0.1:5000` or `http://localhost:5000`.
-
