@@ -4,7 +4,7 @@ import json
 import os
 from datetime import datetime
 from flask import Flask, render_template, jsonify # <-- Add jsonify
-from helpers import get_os_info, get_python_package_version, get_system_package_version
+from helpers import get_os_info, get_python_package_version, get_system_package_version, get_system_uptime
 
 app = Flask(__name__)
 
@@ -29,7 +29,9 @@ def get_all_data():
     """Helper function to gather all system data."""
     config = load_config()
     os_details = get_os_info()
-    
+   
+    os_details['uptime'] = get_system_uptime()
+
     current_os_id = os_details.get('distro_id', 'unknown')
     if os_details.get('system') == 'Darwin':
         current_os_id = 'macos'

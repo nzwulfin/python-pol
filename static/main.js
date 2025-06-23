@@ -51,12 +51,13 @@ document.addEventListener('DOMContentLoaded', function() {
             const os = data.os_details;
             osDetailsContainer.innerHTML = `
                 ${createOsDetailItem('bi-hdd-stack', 'Hostname', os.node)}
-                ${createOsDetailItem('bi-microsoft', 'System', os.system)}
-                ${createOsDetailItem('bi-ubuntu', 'Distribution', os.distro_name)}
-                ${createOsDetailItem('bi-git', 'Kernel Release', os.release)}
+                ${createOsDetailItem('bi-columns-gap', 'System', os.system)}
+                ${createOsDetailItem('bi-cassette', 'Distribution', os.distro_name)}
+                ${createOsDetailItem('bi-ticket-detailed', 'Kernel Release', os.release)}
                 ${createOsDetailItem('bi-gear-wide-connected', 'Kernel Version', os.version)}
                 ${createOsDetailItem('bi-cpu', 'Processor', os.processor)}
-                ${createOsDetailItem('bi-memory', 'Architecture', os.machine)}
+                ${createOsDetailItem('bi-motherboard', 'Architecture', os.machine)}
+		${createOsDetailItem('bi-stopwatch', 'System Uptime', os.uptime)}
             `;
 
             // 3. Update Python Packages Table
