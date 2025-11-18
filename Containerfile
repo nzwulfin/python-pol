@@ -10,7 +10,7 @@ RUN dnf install -y \
     dnf clean all && rm -rf /var/cache/dnf
 
 # Copy the Flask application files and Gunicorn service file
-ADD . /app
+COPY . /app
 COPY info-app.service /etc/systemd/system/
 
 # Install requirements via pip3
